@@ -13,12 +13,39 @@ app.get('/', (req, res) => {
 
 app.post('/tarefas', async (req, res) => {
     const tarefa = await Tarefa.create(req.body);
-    res.send(tarefa);
+    res.json(tarefa);
 });
 
 app.get('/tarefas', async (req, res) => {
     const tarefas = await Tarefa.findAll();
-    res.send(tarefas);
+    res.json(tarefas);
+});
+
+app.get('/tarefas/:id', async (req, res) => {
+    const tarefa = await Tarefa.findAll({
+        where: {
+            id: req.params.id
+        }
+    });
+    res.json(...tarefa);
+});
+
+app.delete('/tarefas/:id', async (req, res) => {
+    const result = await Tarefa.destroy({
+        where: {
+            id: req.params.id   
+        }
+    });
+    res.json(result);
+});
+
+app.put('/tarefas/:id', async (req, res) => {
+    const tarefa = await Tarefa.update(req.body,{
+        where: {
+            id: req.params.id   
+        }
+    });
+    res.json(tarefa);
 });
 
 app.listen(4000);
